@@ -3,7 +3,9 @@ from itertools import zip_longest
 from abc import ABC, abstractmethod
 
 import numpy as np
-import tensorflow as tf
+#import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 from gym.spaces import Discrete
 
 from stable_baselines.common.tf_util import batch_to_seq, seq_to_batch
@@ -538,7 +540,7 @@ class FeedForwardPolicy(ActorCriticPolicy):
     def __init__(self, sess, ob_space, ac_space, n_env, n_steps, n_batch, reuse=False, layers=None, net_arch=None,
                  act_fun=tf.tanh, cnn_extractor=nature_cnn, feature_extraction="cnn", **kwargs):
         super(FeedForwardPolicy, self).__init__(sess, ob_space, ac_space, n_env, n_steps, n_batch, reuse=reuse,
-                                                scale=(feature_extraction == "cnn"))
+                                                scale=(feature_extraction == 'cnn'))
 
         self._kwargs_check(feature_extraction, kwargs)
 
@@ -658,7 +660,7 @@ class MlpPolicy(FeedForwardPolicy):
 
     def __init__(self, sess, ob_space, ac_space, n_env, n_steps, n_batch, reuse=False, **_kwargs):
         super(MlpPolicy, self).__init__(sess, ob_space, ac_space, n_env, n_steps, n_batch, reuse,
-                                        feature_extraction="mlp", **_kwargs)
+                                        feature_extraction='mlp', **_kwargs)
 
 
 class MlpLstmPolicy(LstmPolicy):
@@ -678,7 +680,7 @@ class MlpLstmPolicy(LstmPolicy):
 
     def __init__(self, sess, ob_space, ac_space, n_env, n_steps, n_batch, n_lstm=256, reuse=False, **_kwargs):
         super(MlpLstmPolicy, self).__init__(sess, ob_space, ac_space, n_env, n_steps, n_batch, n_lstm, reuse,
-                                            layer_norm=False, feature_extraction="mlp", **_kwargs)
+                                            layer_norm=False, feature_extraction='mlp', **_kwargs)
 
 
 class MlpLnLstmPolicy(LstmPolicy):
@@ -698,7 +700,7 @@ class MlpLnLstmPolicy(LstmPolicy):
 
     def __init__(self, sess, ob_space, ac_space, n_env, n_steps, n_batch, n_lstm=256, reuse=False, **_kwargs):
         super(MlpLnLstmPolicy, self).__init__(sess, ob_space, ac_space, n_env, n_steps, n_batch, n_lstm, reuse,
-                                              layer_norm=True, feature_extraction="mlp", **_kwargs)
+                                              layer_norm=True, feature_extraction="'mlp', **_kwargs)
 
 
 _policy_registry = {
